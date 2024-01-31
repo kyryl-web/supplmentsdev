@@ -1,0 +1,52 @@
+.categories {
+    margin-bottom: 15px;
+}
+
+.categories_add_img, .dots {
+    height: 23px;
+    width: 25px;
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+.categories_items {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.categories_tools {
+    position: relative;
+}
+
+.categories_list{
+    display: flex;
+    max-width: 250px;
+    overflow-x: auto;
+}
+
+.cat button {
+    background-color: transparent;
+    outline: none;
+    border: 1px solid; 
+    border-radius: 25px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.cat + .cat{
+    margin-left: 10px;
+}
+
+.cat_active button {
+    background-color: #0abef0;
+    color: #fff;
+}
+
+.add_input {
+    margin-bottom: 10px;
+}
+
+.dots {
+    margin-left: 0px !important;
+}

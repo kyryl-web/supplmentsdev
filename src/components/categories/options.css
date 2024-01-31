@@ -1,0 +1,43 @@
+.option_cat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.option_cat button {
+    background-color: transparent;
+    line-height: 100%;
+    border: 1px solid; 
+    border-radius: 25px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.option_list {
+    background-color: #fff;
+    z-index: 6;
+    border: 1px solid;
+    border-radius: 25px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: absolute;
+    right: -60px;
+    top: 28px;
+    color: #000;
+}
+
+.close {
+    transform: rotate(45deg);
+    position: absolute;
+    right: -25px;
+    top: 0;
+}
+
+.delete_img {
+    height: 23px;
+    width: 23px;
+    cursor: pointer;
+    margin-left: 15px;
+}

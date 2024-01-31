@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+body.night {
+  background-color: #000;
+  color: #fc8600;
+  fill: #fc8600;
+  /* stroke: #fff; */
+}
+
+body.night input {
+  background-color: inherit;
+}
+
+body.night .delete {
+  fill: #fc8600;
+}
+
+.init_filter_item button, .cat button, .item_title, .pause, .categories_elem button, .add_input {
+  color: inherit;
+}
+
+body.night .plus_svg, 
+body.night .dots, 
+body.night .add_item_category_dots{
+  fill: inherit;
+}
+
+body.night .quick_burger path {
+  stroke: #fc8600;
+}
+
+body.night .more_arrow > g > g {
+  fill: #fc8600;
+}
+
+body.night .pause_info, body.night .last_check {
+  color: #d8b010;
+}
+
+body.night .plus, body.night .minus {
+  color: #000;
+}

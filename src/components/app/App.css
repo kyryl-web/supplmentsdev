@@ -1,0 +1,34 @@
+.App {
+  text-align: center;
+  padding: 50px 10px;
+  max-width: 400px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.App.night {
+  background-color: #000;
+  color: #fff;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.last_check {
+  font-size: 12px;
+  position: absolute;
+  top: 14px;
+}

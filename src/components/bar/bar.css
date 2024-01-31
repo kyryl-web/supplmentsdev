@@ -1,0 +1,28 @@
+
+.bar_list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 0 10px;
+}
+
+.bar_item {
+    height: 10px;
+    width: 10px;
+    list-style: none;
+}
+
+.pause {
+    margin-bottom: 10px;
+    font-size: 13px;
+    background-color: transparent;
+    border: 1px solid;
+    border-radius: 25px;
+    padding: 5px 10px;
+    margin-top: 10px;
+}
+
+.pause_date {
+    font-size: 14px;
+    margin-top: 5px;
+}
