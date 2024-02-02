@@ -5,6 +5,7 @@ import Categories from '../categories/categories';
 import InitFilter from '../initFilter/initFilter';
 import QuickMenu from '../quickMenu/quickMenu';
 import NightMod from '../nightMod/nightMod';
+import WaitSuppList from '../tabs/suppList';
 
 import './App.css';
 
@@ -27,7 +28,7 @@ function App() {
   const [initFilter, setInitFilter] = useState('all');
   const [checked, setChecked] = useState(Boolean(localStorage.getItem('night')));
   const [lastCheck, setLastCheck] = useState(localStorage.getItem('lastCheck'));
-  console.log(localStorage.getItem('lastCheck'))
+
   useEffect(() => {
     if (JSON.parse(localStorage.getItem('items'))?.length) {
         setItems(JSON.parse(localStorage.getItem('items')));
@@ -38,7 +39,6 @@ function App() {
     }
 
     if (localStorage.getItem('night') === '' || localStorage.getItem('night') === 'true') {
-      console.log(localStorage.getItem('night'));
       setChecked(Boolean(localStorage.getItem('night')));
     }
   }, [])
@@ -336,6 +336,7 @@ function App() {
           categoriesList={categories}
           onCategorieAdd={onCategorieAdd}
           deleteCatFromItem={deleteCatFromItem}/>
+        <WaitSuppList/>
     </div>
   );
 }
