@@ -84,10 +84,11 @@ function App() {
     })
   }
 
-  const onTitleChange = (term, n) => {
+  const onTitleChange = (term, id) => {
+    console.log(id)
     setItems(items => {
       return items.map((item, i) => {
-        if (i === n) {
+        if (item.id === id) {
           return {...item, title: term}
         }
         return item;
@@ -117,30 +118,30 @@ function App() {
     setLastCheck(date);
   }
 
-  function onTools (e, n) {
+  function onTools (e, id) {
     const t = e.target;
     if (t.getAttribute('data-take-plus')) {
-      addElementToTakeList(1, n);
+      addElementToTakeList(1, id);
       getLastCheckDate();
     } 
     else if (t.getAttribute('data-take-minus')) {
-        deleteElementFromTakeList(1, n);
+        deleteElementFromTakeList(1, id);
         getLastCheckDate();
     }
     else if (t.getAttribute('data-pass-plus')) {
-      addElementToTakeList(-1, n);
+      addElementToTakeList(-1, id);
       getLastCheckDate();
     }
     else if (t.getAttribute('data-pass-minus')) {
-        deleteElementFromTakeList(-1, n);
+        deleteElementFromTakeList(-1, id);
         getLastCheckDate();
     }
   }
 
-  function addElementToTakeList(t, n) {
+  function addElementToTakeList(t, id) {
     setItems(items => {
       return items.map((item, i) => {
-        if (i === n) {
+        if (item.id === id) {
           return {...item, take: item.take.concat([t])};
         }
         return item;
@@ -148,10 +149,10 @@ function App() {
     })
   }
 
-  function deleteElementFromTakeList (t, n) {
+  function deleteElementFromTakeList (t, id) {
     setItems(items => {
         return items.map((item, i) => {
-          if (i === n) {
+          if (item.id === id) {
             const last = item.take.lastIndexOf(t);
             if (last >= 0) {
               return {
@@ -165,25 +166,58 @@ function App() {
     })
   }
 
-  function deleteCatFromItem(id) {
+  function deleteCatFromItem(id, n) {
     if (id === 'all') {
-      setItems(items => {
-        return items.map((item) => {
-          return {...item, categories: []};
+      if (!n && n !== 0) {
+        setItems(items => {
+          return items.map((item) => {
+            return {...item, categories: []};
+          })
         })
-      })
-      return;
+        return;
+      }
+      if (n || n === 0) {
+        setItems(items => {
+          return items.map((item, i) => {
+            if (i === n) {
+              return {...item, categories: []};
+            } 
+            return item;
+          })
+        })
+        return;
+      }
     }
-    setItems(items => {
-      return items.map(item => {
-        for (let i = 0; i < item.categories.length; i++) {
-          if (item.categories[i].id === id) {
-            return {...item, categories: item.categories.filter((item) => item.id !== id)};
-          }
-        }
-        return item;
-      })
-    })
+    else if (id !== 'all') {
+      if (!n && n !== 0) {
+        setItems(items => {
+          return items.map(item => {
+            for (let i = 0; i < item.categories.length; i++) {
+              if (item.categories[i].id === id) {
+                return {...item, categories: item.categories.filter((item) => item.id !== id)};
+              }
+            }
+            return item;
+          })
+        })
+        return;
+      }
+      if (n || n === 0) {
+        setItems(items => {
+          return items.map((item, i) => {
+            if (i === n) {
+              for (let i = 0; i < item.categories.length; i++) {
+                if (item.categories[i].id === id) {
+                  return {...item, categories: item.categories.filter((item) => item.id !== id)};
+                }
+              }
+            } 
+            return item;
+          })
+        })
+        return
+      }
+    } 
   } 
 
   function deleteItem(n) {
@@ -247,11 +281,6 @@ function App() {
     }
   }
 
-
-  const takeItems = items.map(item => {
-    return item.take
-  });
-
   function getFilter(f) {
     if (filter === f) {
       setFilter('');
@@ -305,6 +334,9 @@ function App() {
   const itemsTitles = items.map(item => {
     return {title: item.title, id: item.id, activePause: item.activePause};
   })
+  const takeItems = filteredItems.map(item => {
+    return item.take
+  });
 
   if (checked) {
     document.body.classList.add('night');
@@ -336,7 +368,7 @@ function App() {
           categoriesList={categories}
           onCategorieAdd={onCategorieAdd}
           deleteCatFromItem={deleteCatFromItem}/>
-        <WaitSuppList/>
+        {/* <WaitSuppList/> */}
     </div>
   );
 }

@@ -9,6 +9,7 @@ const ItemList = ({items, onAdd, onTitleChange, amount, takeItems, onTools,
                     deleteItem, pause, categoriesList, onCategorieAdd,deleteCatFromItem}) => {
 
     const elements = items.map((item, i) => {
+ 
         return <Item    key={item.id}
                         n={i}
                         {...item} 
@@ -29,7 +30,6 @@ const ItemList = ({items, onAdd, onTitleChange, amount, takeItems, onTools,
             {amount ? null : <div>Добавить</div>}
             <div className="add">
                 <PlusSVG clazz='add_img' f={() => onAdd()}/>
-                {/* <img src={Plus} alt="Add" onClick={() => onAdd()} className="add_img"/> */}
             </div>
         </>
 

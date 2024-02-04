@@ -13,7 +13,7 @@ import ArrowDownSVG from "../svgImages/arrowDownSVG";
 // categoriesList - категроии из компонента категорий
 // categories - категории айтема
 const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, onTitleChange, n, onTools, 
-                deleteItem, pause, categoriesList, onCategorieAdd, deleteCatFromItem}) => {
+                deleteItem, pause, categoriesList, onCategorieAdd, deleteCatFromItem, id}) => {
     const [term, setTerm] = useState(title);
     const [showBar, setShowBar] = useState(false);
     const [disable, setDisable] = useState(activePause);
@@ -22,6 +22,12 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
 
     const ref = useRef();
     let counter = useRef(0);
+
+    useEffect(() => {
+        if (term === '') {
+            ref.current.placeholder = 'Введите название';
+        }
+    }, [term])
 
     useEffect(() => {
         if (title === '') {
@@ -47,7 +53,7 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
     function onTitle(e) {
         const term = e.target.value;
         setTerm(term);
-        onTitleChange(term, n);
+        onTitleChange(term, id);
     } 
     
     function blurTitle() {
@@ -77,7 +83,7 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
             {/* <img className="delete" src={Delete} alt="Delete" onClick={() => {deleteItem(n)}}/> */}
             <DeleteSVG clazz='delete' f={() => {deleteItem(n)}}/>
             {activePause ? <p className="pause_info">Перерыв</p> : null}
-            <input ref={ref} className="item_title" value={term} onChange={(e) => onTitle(e)} onBlur={() => blurTitle()}/>
+            <input ref={ref} className="item_title"  value={term} onChange={(e) => onTitle(e)} onBlur={() => blurTitle()}/>
             <ul className="item_categories">
                 {chooseActive ? renderChooseList() : null}
                 {itemCategoriesList.length ? 
@@ -93,9 +99,8 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
             {itemCategoriesList.length ?
                 <div className="add_item_category_tools">
                     <PlusSVG clazz='add_item_category_plus' f={() => setCooseActive(true)}/>
-                    <DotsSVG clazz='add_item_category_dots' f={() => setShowOptions(b => !b)}/>
-                    {/* <img src={Dots} alt="Options" className="add_item_category_dots"  onClick={() => setShowOptions(b => !b)} /> */}
-                    {showOptions ? <Options categories={categories} setShowOptions={setShowOptions} deleteCat={deleteCatFromItem}/> : null}
+                    <DotsSVG clazz='add_item_category_dots' f={() => setShowOptions(b => !b)}/>            
+                    {showOptions ? <Options categories={categories} setShowOptions={setShowOptions} deleteCat={deleteCatFromItem} n={n}/> : null}
                 </div>
                 
             : null}
@@ -104,17 +109,17 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
                 <div className="item_counter-take">
                     <div className="item_counter-take_title">Прием</div>
                     <div className="item_counter-take_tools">
-                        <button className="minus" disabled={disable} onClick={(e) => onTools(e, n)} data-take-minus>-</button>
+                        <button className="minus" disabled={disable} onClick={(e) => onTools(e, id)} data-take-minus>-</button>
                         <div className="item_counter-take_num">{takeNum}</div> 
-                        <button className="plus" disabled={disable} onClick={(e) => onTools(e, n)} data-take-plus>+</button>
+                        <button className="plus" disabled={disable} onClick={(e) => onTools(e, id)} data-take-plus>+</button>
                     </div>     
                 </div>
                 <div className="item_counter-take">
                     <div className="item_counter-take_title">Пропуск</div>
                     <div className="item_counter-take_tools">
-                        <button className="minus" disabled={disable} onClick={(e) => onTools(e, n)} data-pass-minus>-</button>
+                        <button className="minus" disabled={disable} onClick={(e) => onTools(e, id)} data-pass-minus>-</button>
                         <div className="item_counter-take_num">{passNum}</div> 
-                        <button className="plus" disabled={disable} onClick={(e) => onTools(e, n)} data-pass-plus>+</button>
+                        <button className="plus" disabled={disable} onClick={(e) => onTools(e, id)} data-pass-plus>+</button>
                     </div>     
                 </div>
             </div>

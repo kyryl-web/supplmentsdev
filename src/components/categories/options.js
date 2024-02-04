@@ -4,12 +4,16 @@ import PlusSVG from '../svgImages/plusSVG';
 
 import './options.css';
 
-const Options = ({categories, setShowOptions, deleteCat}) => {
+const Options = ({categories, setShowOptions, deleteCat, n}) => {
 
     const elements = categories.map(({name, id}) => {
         return <li key={id} className="option_cat" onClick={() => setShowOptions(false)}>
                     <button>{name}</button>
-                    <DeleteSVG clazz='delete_img' f={() => deleteCat(id)}/> 
+                    
+                        <DeleteSVG clazz='delete_img' f={() => deleteCat(id, n)}/>
+                     
+                      
+                     
                 </li>
     })
 
@@ -18,7 +22,7 @@ const Options = ({categories, setShowOptions, deleteCat}) => {
             <ul className="option_list">
                 {categories.length ? elements : 'Категорий нет'}
                 {categories.length ?    <li key={'RemoveAll'} className="option_cat" onClick={() => {
-                                            deleteCat('all');
+                                            deleteCat('all', n);
                                             setShowOptions(false);
                                         }}>
                                             <button>Удалить все</button>
