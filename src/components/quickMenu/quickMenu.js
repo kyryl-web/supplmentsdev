@@ -13,7 +13,7 @@ const QuickMenu = ({itemsTitles, onTools}) => {
         return  <li key={id} className='quick_menu_list_item'>
                     <button className='quick_menu_list_item_title'>{title}</button>
                     <button className='quick_menu_list_item_plus plus' data-take-plus disabled={activePause}
-                        onClick={(e) => onTools(e, i)}>
+                        onClick={(e) => onTools(e, id)}>
                         +
                     </button>
                 </li>
