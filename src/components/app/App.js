@@ -64,19 +64,19 @@ function App() {
     })
   }
 
-  function onCategorieAdd(name, id, n) {
+  function onCategorieAdd(name, id, itemId) {
     setItems(items => {
       return items.map((item, i) => {
-        if (i === n) {
+        if (item.id === itemId) {
           let f = false;
-          for (let i = 0; i < items[n].categories.length; i++) {
-            if (items[n].categories[i].name === name) {
+          for (let i = 0; i < item.categories.length; i++) {
+            if (item.categories[i].name === name) {
               f = true;
               break;
             }
           }
           if (!f) {
-            return {...item, categories: [...items[n].categories, {name: name, id: id}]};
+            return {...item, categories: [...item.categories, {name: name, id: id}]};
           }
         }
         return item;
@@ -166,9 +166,9 @@ function App() {
     })
   }
 
-  function deleteCatFromItem(id, n) {
+  function deleteCatFromItem(id, itemId) {
     if (id === 'all') {
-      if (!n && n !== 0) {
+      if (!itemId) {
         setItems(items => {
           return items.map((item) => {
             return {...item, categories: []};
@@ -176,10 +176,10 @@ function App() {
         })
         return;
       }
-      if (n || n === 0) {
+      if (itemId) {
         setItems(items => {
           return items.map((item, i) => {
-            if (i === n) {
+            if (item.id === itemId) {
               return {...item, categories: []};
             } 
             return item;
@@ -189,7 +189,7 @@ function App() {
       }
     }
     else if (id !== 'all') {
-      if (!n && n !== 0) {
+      if (!itemId && itemId !== 0) {
         setItems(items => {
           return items.map(item => {
             for (let i = 0; i < item.categories.length; i++) {
@@ -202,10 +202,10 @@ function App() {
         })
         return;
       }
-      if (n || n === 0) {
+      if (itemId || itemId === 0) {
         setItems(items => {
           return items.map((item, i) => {
-            if (i === n) {
+            if (item.id === itemId) {
               for (let i = 0; i < item.categories.length; i++) {
                 if (item.categories[i].id === id) {
                   return {...item, categories: item.categories.filter((item) => item.id !== id)};
@@ -220,9 +220,9 @@ function App() {
     } 
   } 
 
-  function deleteItem(n) {
+  function deleteItem(id) {
     
-    const f = items.filter((item, i) => i !== n)
+    const f = items.filter((item, i) => item.id !== id)
     setItems(f);
   }
 

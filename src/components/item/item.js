@@ -72,7 +72,7 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
         return <CategoriesListToChoose 
                     categories={categoriesList} 
                     onCategorieAdd={onCategorieAdd} 
-                    n={n}
+                    itemId={id}
                     setCooseActive={setCooseActive}/>
     }
 
@@ -81,7 +81,7 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
     return (
         <li className="item">
             {/* <img className="delete" src={Delete} alt="Delete" onClick={() => {deleteItem(n)}}/> */}
-            <DeleteSVG clazz='delete' f={() => {deleteItem(n)}}/>
+            <DeleteSVG clazz='delete' f={() => {deleteItem(id)}}/>
             {activePause ? <p className="pause_info">Перерыв</p> : null}
             <input ref={ref} className="item_title"  value={term} onChange={(e) => onTitle(e)} onBlur={() => blurTitle()}/>
             <ul className="item_categories">
@@ -100,7 +100,7 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
                 <div className="add_item_category_tools">
                     <PlusSVG clazz='add_item_category_plus' f={() => setCooseActive(true)}/>
                     <DotsSVG clazz='add_item_category_dots' f={() => setShowOptions(b => !b)}/>            
-                    {showOptions ? <Options categories={categories} setShowOptions={setShowOptions} deleteCat={deleteCatFromItem} n={n}/> : null}
+                    {showOptions ? <Options categories={categories} setShowOptions={setShowOptions} deleteCat={deleteCatFromItem} itemId={id}/> : null}
                 </div>
                 
             : null}
@@ -138,10 +138,10 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
     )
 }
 
-const CategoriesListToChoose = ({categories, onCategorieAdd, n, setCooseActive}) => {
+const CategoriesListToChoose = ({categories, onCategorieAdd, itemId, setCooseActive}) => {
     const elements = categories.map(({name, id}) => {
         return <li key={id} onClick={() => {
-            onCategorieAdd(name, id, n);
+            onCategorieAdd(name, id, itemId);
             setCooseActive(false);
         }}><button>{name}</button></li>
     })
