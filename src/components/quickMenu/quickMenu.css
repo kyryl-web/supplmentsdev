@@ -46,3 +46,18 @@
     border: 1px solid;
     font-size: 18px;
 }
+
+.quick_menu_list_item button {
+    font-weight: 700;
+    background-color: transparent;
+    outline: none;
+    border: 1px solid;
+    border-radius: 25px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.quick_menu_list_item.active button {
+    background-color: #0abef0;
+    color: #fff;
+}

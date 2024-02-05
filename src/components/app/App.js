@@ -6,6 +6,7 @@ import InitFilter from '../initFilter/initFilter';
 import QuickMenu from '../quickMenu/quickMenu';
 import NightMod from '../nightMod/nightMod';
 import WaitSuppList from '../tabs/suppList';
+import ItemsTab from '../tabs/itemsTab';
 
 import './App.css';
 
@@ -22,12 +23,13 @@ function App() {
     //   id: 6
     // }
   ]);
-
+  const [waitList, setWaitList] = useState(JSON.parse(localStorage.getItem('waitList')));
   const [categories, setCategories] = useState([]);
   const [filter, setFilter] = useState('');
   const [initFilter, setInitFilter] = useState('all');
   const [checked, setChecked] = useState(Boolean(localStorage.getItem('night')));
   const [lastCheck, setLastCheck] = useState(localStorage.getItem('lastCheck'));
+  const [activeTab, setActiveTab] = useState('items');
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem('items'))?.length) {
@@ -328,9 +330,17 @@ function App() {
     }
     
   }
+
+  function getActiveTab(tab) {
+    setActiveTab(tab);
+    window.scrollTo(0, 0);
+  }
   
   const filteredItems = filterItems(initFilterItems(items));
-  const amount = filteredItems.length;
+  const amount = {
+    'items': filteredItems.length,
+    'wait': waitList.length
+  }
   const itemsTitles = items.map(item => {
     return {title: item.title, id: item.id, activePause: item.activePause};
   })
@@ -344,31 +354,16 @@ function App() {
     document.body.classList.remove('night');
   }
 
+  const tools = {initFilter, getInitFilter, onCategories, deleteCatFromItem, getFilter, filter,
+                filteredItems, onAdd, onTitleChange, amount, takeItems, onTools, deleteItem, pause, categories, onCategorieAdd}
   return (
     <div className='App'>
       {lastCheck ? <p className="last_check">{lastCheck}</p> : null}  
         <NightMod checked={checked} getChecked={getChecked}/>
-        <Header amount={amount}/>
-        <QuickMenu itemsTitles={itemsTitles} onTools={onTools}/>
-        <InitFilter initFilter={initFilter} getInitFilter={getInitFilter}/>
-        <Categories 
-          onCategories={onCategories} 
-          deleteCatFromItem={deleteCatFromItem} 
-          getFilter={getFilter}
-          filter={filter}/>
-        <ItemList 
-          items={filteredItems} 
-          onAdd={onAdd} 
-          onTitleChange={onTitleChange} 
-          amount={amount}
-          takeItems={takeItems}
-          onTools={onTools}
-          deleteItem={deleteItem}
-          pause={pause}
-          categoriesList={categories}
-          onCategorieAdd={onCategorieAdd}
-          deleteCatFromItem={deleteCatFromItem}/>
-        {/* <WaitSuppList/> */}
+        <Header amount={amount} activeTab={activeTab}/>   
+        <QuickMenu itemsTitles={itemsTitles} onTools={onTools} getActiveTab={getActiveTab} activeTab={activeTab}/>
+        {activeTab === 'items' ? <ItemsTab {...tools}/> : null}
+        {activeTab === 'wait' ?  <WaitSuppList waitList={waitList}/> : null}
     </div>
   );
 }

@@ -1,10 +1,10 @@
 import './header.css'
 
-const Header = ({amount}) => {
-    
+const Header = ({amount, activeTab}) => {
+
     return (
         <div className="header">
-            Количество бадов: {amount}
+            Количество бадов: {amount[activeTab]}
         </div>
     )
 }

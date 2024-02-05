@@ -1,0 +1,17 @@
+
+
+.wait_list_item {
+    max-width: 70%;
+    margin: 0 auto;
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.wait_list_item_inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+

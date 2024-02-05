@@ -1,7 +1,10 @@
-import { useState } from "react"
+import { useState } from "react";
+import DeleteSVG from "../svgImages/deleteSVG";
 
-const WaitSuppList = () => {
-    const [waitList, setWaitList] = useState([JSON.parse(localStorage.getItem('waitList'))]);
+import './suppList.css';
+
+const WaitSuppList = ({waitList}) => {
+    
 
     const t = [
         {title: 'D-3', amount: 2,  id: 1},
@@ -27,12 +30,22 @@ const WaitSuppList = () => {
         {title: 'Creatine', amount: 1, id: 21},
     ]
 
-    console.log(waitList)
+    const elements = waitList.map(({title, amount, id}) => {
+        return  <li key={id} className="wait_list_item">
+                    <div className="wait_list_item_inner">
+                        <div className="wait_list_item_title">{title}</div>
+                        <div className="wait_list_item_amount">{amount}</div>
+                        
+                    </div>
+                </li>
+    })
 
-    localStorage.setItem('waitList', JSON.stringify(t));
+    // localStorage.setItem('waitList', JSON.stringify(t));
     return (
-        <div className="wait_list">
-
+        <div className="wait">
+            <ul className="wait_list">
+                {elements}
+            </ul>
         </div>
     )
 }

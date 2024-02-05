@@ -28,7 +28,7 @@ body.night .delete {
   fill: #fc8600;
 }
 
-.init_filter_item button, .cat button, .item_title, .pause, .categories_elem button, .add_input {
+.init_filter_item button, .cat button, .item_title, .pause, .categories_elem button, .add_input, .quick_menu_list_item button {
   color: inherit;
 }
 
