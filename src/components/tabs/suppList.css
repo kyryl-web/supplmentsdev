@@ -15,3 +15,28 @@
     justify-content: space-between;
 }
 
+.wait_list_item_title {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 0px;
+    /* text-align: center; */
+    outline: none;
+    border: none;
+    max-width: 50%;
+}
+
+.wait_item_amount {
+    display: flex;
+}
+
+.wait_item_amount button {
+    background-color: transparent;
+    border: 1px solid;
+    cursor: pointer;
+}
+
+.wait_item_dots {
+    height: 23px;
+    width: 25px;
+    cursor: pointer;
+}

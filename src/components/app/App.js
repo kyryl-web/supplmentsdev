@@ -11,9 +11,7 @@ import ItemsTab from '../tabs/itemsTab';
 import './App.css';
 
 function App() {
-
-  const [items, setItems] = useState([
-    // {
+ // {
     //   title: '',
     //   categories: [],
     //   take: [],
@@ -22,18 +20,22 @@ function App() {
     //   pauseDays: 0,
     //   id: 6
     // }
-  ]);
+  const [items, setItems] = useState([]);
   const [waitList, setWaitList] = useState(JSON.parse(localStorage.getItem('waitList')));
   const [categories, setCategories] = useState([]);
   const [filter, setFilter] = useState('');
   const [initFilter, setInitFilter] = useState('all');
   const [checked, setChecked] = useState(Boolean(localStorage.getItem('night')));
   const [lastCheck, setLastCheck] = useState(localStorage.getItem('lastCheck'));
-  const [activeTab, setActiveTab] = useState('items');
+  const [activeTab, setActiveTab] = useState('wait');
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem('items'))?.length) {
         setItems(JSON.parse(localStorage.getItem('items')));
+    }
+
+    if (JSON.parse(localStorage.getItem('waitList'))?.length) {
+      setWaitList(JSON.parse(localStorage.getItem('waitList')));
     }
 
     if (localStorage.getItem('init')) {
@@ -43,6 +45,10 @@ function App() {
     if (localStorage.getItem('night') === '' || localStorage.getItem('night') === 'true') {
       setChecked(Boolean(localStorage.getItem('night')));
     }
+
+    if (localStorage.getItem('activeTab')) {
+      setActiveTab(localStorage.getItem('activeTab'));
+    }
   }, [])
 
   useEffect(() => {
@@ -50,6 +56,14 @@ function App() {
       localStorage.setItem('items', JSON.stringify(items));
     }
   }, [items])
+
+  useEffect(() => {
+    if (waitList.length) {
+      localStorage.setItem('waitList', JSON.stringify(waitList));
+    }
+  }, [waitList])
+
+  
 
   const onCategories = useCallback((c) => {
     setCategories(c);
@@ -63,6 +77,12 @@ function App() {
                 activePause: false,
                 pauseDays: 0,
                 id: items[items.length-1]?.id ? items[items.length-1].id + 1 : 1}]
+    })
+  }
+
+  function onWaitAdd() {
+    setWaitList(waits => {
+      return [...waits, {title: '', amount: 0,  id: waits[waits.length-1]?.id ? waits[waits.length-1].id + 1 : 1}]
     })
   }
 
@@ -87,13 +107,23 @@ function App() {
   }
 
   const onTitleChange = (term, id) => {
-    console.log(id)
     setItems(items => {
       return items.map((item, i) => {
         if (item.id === id) {
           return {...item, title: term}
         }
         return item;
+      })
+    })
+  }
+
+  function onWaitTitleChange(term, id) {
+    setWaitList(waits => {
+      return waits.map(wait => {
+        if (wait.id === id) {
+          return {...wait, title: term}
+        }
+        return wait;
       })
     })
   }
@@ -137,6 +167,30 @@ function App() {
     else if (t.getAttribute('data-pass-minus')) {
         deleteElementFromTakeList(-1, id);
         getLastCheckDate();
+    }
+  }
+
+  function addAmountToWaitItem(e, id) {
+    if (e.target.getAttribute('data-amount-minus')) {
+      setWaitList(waits => {
+        return waits.map(wait => {
+          if (wait.id === id) {
+            return {...wait, amount: wait.amount - 1}
+          }
+          return wait;
+        })
+      })
+    }
+
+    if (e.target.getAttribute('data-amount-plus')) {
+      setWaitList(waits => {
+        return waits.map(wait => {
+          if (wait.id === id) {
+            return {...wait, amount: wait.amount + 1}
+          }
+          return wait;
+        })
+      })
     }
   }
 
@@ -334,6 +388,7 @@ function App() {
   function getActiveTab(tab) {
     setActiveTab(tab);
     window.scrollTo(0, 0);
+    localStorage.setItem('activeTab', tab)
   }
   
   const filteredItems = filterItems(initFilterItems(items));
@@ -363,7 +418,11 @@ function App() {
         <Header amount={amount} activeTab={activeTab}/>   
         <QuickMenu itemsTitles={itemsTitles} onTools={onTools} getActiveTab={getActiveTab} activeTab={activeTab}/>
         {activeTab === 'items' ? <ItemsTab {...tools}/> : null}
-        {activeTab === 'wait' ?  <WaitSuppList waitList={waitList}/> : null}
+        {activeTab === 'wait' ?  <WaitSuppList 
+                                    waitList={waitList} 
+                                    onWaitAdd={onWaitAdd} 
+                                    onWaitTitleChange={onWaitTitleChange}
+                                    addAmountToWaitItem={addAmountToWaitItem}/> : null}
     </div>
   );
 }

@@ -25,14 +25,13 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
 
     useEffect(() => {
         if (term === '') {
-            ref.current.placeholder = 'Введите название';
+            // ref.current.placeholder = 'Введите название';
         }
     }, [term])
 
     useEffect(() => {
         if (title === '') {
             ref.current.focus();
-            ref.current.placeholder = 'Введите название';
         }
 
         if (activePause && counter.current < 1) {
@@ -57,7 +56,7 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
     } 
     
     function blurTitle() {
-        // ref.current.readOnly = true;
+        
     }
 
     function disableButtons(b) {
@@ -80,10 +79,9 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
 
     return (
         <li className="item">
-            {/* <img className="delete" src={Delete} alt="Delete" onClick={() => {deleteItem(n)}}/> */}
             <DeleteSVG clazz='delete' f={() => {deleteItem(id)}}/>
             {activePause ? <p className="pause_info">Перерыв</p> : null}
-            <input ref={ref} className="item_title"  value={term} onChange={(e) => onTitle(e)} onBlur={() => blurTitle()}/>
+            <input ref={ref} className="item_title" placeholder="Введите название" value={term} onChange={(e) => onTitle(e)} onBlur={() => blurTitle()}/>
             <ul className="item_categories">
                 {chooseActive ? renderChooseList() : null}
                 {itemCategoriesList.length ? 
@@ -91,7 +89,6 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
                     </> : <div className="add_item_cat_tools" onClick={() => setCooseActive(true)}>
                     <button className="add_item_category">Добавить категорию</button>
                     <PlusSVG clazz='add_item_category_plus'/>
-                    {/* <img src={Plus} alt="Add" className="add_item_category_plus"/>  */}
                     </div>
                 }
             </ul>
@@ -125,7 +122,6 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
             </div>
             <div className="more" onClick={() => setShowBar(f => !f)}>
                 <ArrowDownSVG clazz={moreArrowClass}/>   
-                {/* <img src={ArrowDown} alt="More Info" className={moreArrowClass}/> */}
             </div>
 
             {showBar ? <Bar barList={takeList} 

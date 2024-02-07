@@ -1,13 +1,14 @@
 
+import './deleteSVG.css';
 
 const DeleteSVG = ({clazz, f}) => {
 
-    const imgClass = '';
+    const imgClass = 'delete_cart '+clazz;
     return (
 
         <svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" 
             width="800px" height="800px" viewBox="0 0 482.428 482.429"
-            xmlSpace="preserve" className={clazz} onClick={f}>
+            xmlSpace="preserve" className={imgClass} onClick={f}>
             <g>
                 <g>
                     <path d="M381.163,57.799h-75.094C302.323,25.316,274.686,0,241.214,0c-33.471,0-61.104,25.315-64.85,57.799h-75.098

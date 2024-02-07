@@ -24,17 +24,17 @@ body.night input {
   background-color: inherit;
 }
 
-body.night .delete {
+body.night .delete_cart {
   fill: #fc8600;
 }
 
-.init_filter_item button, .cat button, .item_title, .pause, .categories_elem button, .add_input, .quick_menu_list_item button {
+.init_filter_item button, .cat button, .item_title, .pause, .categories_elem button, 
+.add_input, .quick_menu_list_item button, .wait_list_item_title {
   color: inherit;
 }
 
 body.night .plus_svg, 
-body.night .dots, 
-body.night .add_item_category_dots{
+body.night .dots_svg{
   fill: inherit;
 }
 
@@ -52,4 +52,8 @@ body.night .pause_info, body.night .last_check {
 
 body.night .plus, body.night .minus {
   color: #000;
+}
+
+body.night .wait_item_amount button {
+  color: #fc8600;
 }

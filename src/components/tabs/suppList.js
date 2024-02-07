@@ -1,11 +1,14 @@
 import { useState } from "react";
 import DeleteSVG from "../svgImages/deleteSVG";
+import PlusSVG from "../svgImages/plusSVG";
+import DotsSVG from "../svgImages/dotsSVG";
 
 import './suppList.css';
+import { wait } from "@testing-library/user-event/dist/utils";
 
-const WaitSuppList = ({waitList}) => {
+
+const WaitSuppList = ({waitList, onWaitAdd, onWaitTitleChange, addAmountToWaitItem}) => {
     
-
     const t = [
         {title: 'D-3', amount: 2,  id: 1},
         {title: 'Zinc', amount: 1, id: 2},
@@ -31,23 +34,48 @@ const WaitSuppList = ({waitList}) => {
     ]
 
     const elements = waitList.map(({title, amount, id}) => {
-        return  <li key={id} className="wait_list_item">
-                    <div className="wait_list_item_inner">
-                        <div className="wait_list_item_title">{title}</div>
-                        <div className="wait_list_item_amount">{amount}</div>
-                        
-                    </div>
-                </li>
+        return  <WaitItem 
+                            key={id}
+                            title={title}
+                            amount={amount}
+                            id={id}
+                            onWaitTitleChange={onWaitTitleChange}
+                            addAmountToWaitItem={addAmountToWaitItem}/>
     })
 
     // localStorage.setItem('waitList', JSON.stringify(t));
+
     return (
         <div className="wait">
             <ul className="wait_list">
                 {elements}
             </ul>
+            <PlusSVG clazz='add_img' f={() => onWaitAdd()}/>
         </div>
     )
+}
+
+const WaitItem =({onWaitTitleChange, id, amount, title, addAmountToWaitItem}) => {
+
+    const [term, setTerm] = useState(title);
+
+    function onTitleChange(e, id) {
+        const term = e.target.value;
+        setTerm(term);
+        onWaitTitleChange(term, id)
+    }
+
+    return  <li key={id} className="wait_list_item">
+                <div className="wait_list_item_inner">
+                    <input className="wait_list_item_title" value={term} placeholder="Введите название" onChange={(e) => onTitleChange(e, id)}/>
+                    <div className="wait_item_amount">
+                        <button className="minus" data-amount-minus onClick={(e) => addAmountToWaitItem(e, id)}>-</button>
+                        <div className="item_counter-take_num">{amount}</div> 
+                        <button className="plus" data-amount-plus onClick={(e) => addAmountToWaitItem(e, id)}>+</button>
+                    </div>
+                    <DotsSVG clazz='wait_item_dots'/>
+                </div>
+            </li>
 }
 
 export default WaitSuppList;
