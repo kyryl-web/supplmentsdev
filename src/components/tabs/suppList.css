@@ -28,6 +28,7 @@
 
 .wait_item_amount {
     display: flex;
+    align-items: center;
 }
 
 .wait_item_amount button {

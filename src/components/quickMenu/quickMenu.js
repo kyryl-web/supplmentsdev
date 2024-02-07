@@ -16,7 +16,10 @@ const QuickMenu = ({getActiveTab, activeTab}) => {
 
     const elements = burgerItems.map(({name, text}, i) => {
         const clazz = activeTab === name ? 'quick_menu_list_item active' : 'quick_menu_list_item';
-        return <li key={i} className={clazz} onClick={() => getActiveTab(name)}><button>{text}</button></li>
+        return <li key={i} className={clazz} onClick={() => {
+            getActiveTab(name);
+            setShowMenu(b => !b);
+        }}><button>{text}</button></li>
     })
     return (
         <div className="quick_menu">

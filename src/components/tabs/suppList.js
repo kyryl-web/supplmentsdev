@@ -80,8 +80,19 @@ const WaitItem =({onWaitTitleChange, id, amount, title, addAmountToWaitItem, onW
                 </div>
                 {showMenu ? 
                     <ul className="wait_dots_menu">
-                        <li className="wait_dots_menu_item" onClick={() => onAdd(title)}><button>Начать прием</button></li>
-                        <li className="wait_dots_menu_item" onClick={() => onWaitDelete(id)}><button>Удалить</button></li>
+                        <PlusSVG clazz='close' f={() => setShowMenu(b => !b)}/>
+                        <li className="wait_dots_menu_item" onClick={() => {
+                                onAdd(title, id);
+                                setShowMenu(b => !b);
+                        }}>
+                            <button>Начать прием</button>
+                        </li>
+                        <li className="wait_dots_menu_item" onClick={() => {
+                                onWaitDelete(id);
+                                setShowMenu(b => !b);
+                        }}>
+                            <button>Удалить</button>
+                        </li>
                     </ul>
                     : null
                 }

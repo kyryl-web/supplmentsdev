@@ -69,7 +69,8 @@ function App() {
     setCategories(c);
   }, [])
 
-  const onAdd = (title) => {
+  const onAdd = (title=null, id=null) => {
+    console.log(title)
     setItems(items => {
       return [...items, 
             {title: title ? title : '', categories: [], take: [],
@@ -78,6 +79,17 @@ function App() {
                 pauseDays: 0,
                 id: items[items.length-1]?.id ? items[items.length-1].id + 1 : 1}]
     })
+
+    if (id) {
+      setWaitList(waits => {
+        return waits.map(wait => {
+          if (wait.id === id) {
+            return {...wait, amount: wait.amount - 1}
+          }
+          return wait;
+        })
+      })
+    }
   }
 
   function onWaitAdd() {

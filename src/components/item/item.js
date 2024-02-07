@@ -17,7 +17,7 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
     const [term, setTerm] = useState(title);
     const [showBar, setShowBar] = useState(false);
     const [disable, setDisable] = useState(activePause);
-    const [chooseActive, setCooseActive] = useState(false);
+    const [chooseActive, setChooseActive] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
 
     const ref = useRef();
@@ -72,11 +72,11 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
                     categories={categoriesList} 
                     onCategorieAdd={onCategorieAdd} 
                     itemId={id}
-                    setCooseActive={setCooseActive}/>
+                    setChooseActive={setChooseActive}/>
     }
 
     const moreArrowClass = showBar ? 'more_arrow active' : 'more_arrow';
-
+    // const itemTitle = term.length > 30 ? term.slice(0, 30) + '...' : term;
     return (
         <li className="item">
             <DeleteSVG clazz='delete' f={() => {deleteItem(id)}}/>
@@ -86,7 +86,7 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
                 {chooseActive ? renderChooseList() : null}
                 {itemCategoriesList.length ? 
                     <>{itemCategoriesList} 
-                    </> : <div className="add_item_cat_tools" onClick={() => setCooseActive(true)}>
+                    </> : <div className="add_item_cat_tools" onClick={() => setChooseActive(true)}>
                     <button className="add_item_category">Добавить категорию</button>
                     <PlusSVG clazz='add_item_category_plus'/>
                     </div>
@@ -95,7 +95,7 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
 
             {itemCategoriesList.length ?
                 <div className="add_item_category_tools">
-                    <PlusSVG clazz='add_item_category_plus' f={() => setCooseActive(true)}/>
+                    <PlusSVG clazz='add_item_category_plus' f={() => setChooseActive(true)}/>
                     <DotsSVG clazz='add_item_category_dots' f={() => setShowOptions(b => !b)}/>            
                     {showOptions ? <Options categories={categories} setShowOptions={setShowOptions} deleteCat={deleteCatFromItem} itemId={id}/> : null}
                 </div>
@@ -134,18 +134,18 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
     )
 }
 
-const CategoriesListToChoose = ({categories, onCategorieAdd, itemId, setCooseActive}) => {
+const CategoriesListToChoose = ({categories, onCategorieAdd, itemId, setChooseActive}) => {
     const elements = categories.map(({name, id}) => {
         return <li key={id} onClick={() => {
             onCategorieAdd(name, id, itemId);
-            setCooseActive(false);
+            setChooseActive(false);
         }}><button>{name}</button></li>
     })
     return (
         <>
             <ul className="choose_list">
                 {elements.length ? elements : "Категорий нет"}
-                <PlusSVG clazz='close' f={() => setCooseActive(false)}/>
+                <PlusSVG clazz='close' f={() => setChooseActive(false)}/>
             </ul>
         </>
     )
