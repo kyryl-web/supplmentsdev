@@ -7,7 +7,7 @@ import './suppList.css';
 import { wait } from "@testing-library/user-event/dist/utils";
 
 
-const WaitSuppList = ({waitList, onWaitAdd, onWaitTitleChange, addAmountToWaitItem}) => {
+const WaitSuppList = ({waitList, onWaitAdd, onWaitTitleChange, addAmountToWaitItem, onWaitDelete, onAdd}) => {
     
     const t = [
         {title: 'D-3', amount: 2,  id: 1},
@@ -40,7 +40,9 @@ const WaitSuppList = ({waitList, onWaitAdd, onWaitTitleChange, addAmountToWaitIt
                             amount={amount}
                             id={id}
                             onWaitTitleChange={onWaitTitleChange}
-                            addAmountToWaitItem={addAmountToWaitItem}/>
+                            addAmountToWaitItem={addAmountToWaitItem}
+                            onWaitDelete={onWaitDelete}
+                            onAdd={onAdd}/>
     })
 
     // localStorage.setItem('waitList', JSON.stringify(t));
@@ -55,14 +57,15 @@ const WaitSuppList = ({waitList, onWaitAdd, onWaitTitleChange, addAmountToWaitIt
     )
 }
 
-const WaitItem =({onWaitTitleChange, id, amount, title, addAmountToWaitItem}) => {
+const WaitItem =({onWaitTitleChange, id, amount, title, addAmountToWaitItem, onWaitDelete, onAdd}) => {
 
     const [term, setTerm] = useState(title);
+    const [showMenu, setShowMenu] = useState(false);
 
     function onTitleChange(e, id) {
         const term = e.target.value;
         setTerm(term);
-        onWaitTitleChange(term, id)
+        onWaitTitleChange(term, id);
     }
 
     return  <li key={id} className="wait_list_item">
@@ -73,8 +76,15 @@ const WaitItem =({onWaitTitleChange, id, amount, title, addAmountToWaitItem}) =>
                         <div className="item_counter-take_num">{amount}</div> 
                         <button className="plus" data-amount-plus onClick={(e) => addAmountToWaitItem(e, id)}>+</button>
                     </div>
-                    <DotsSVG clazz='wait_item_dots'/>
+                    <DotsSVG clazz='wait_item_dots' f={() => setShowMenu(b => !b)}/>
                 </div>
+                {showMenu ? 
+                    <ul className="wait_dots_menu">
+                        <li className="wait_dots_menu_item" onClick={() => onAdd(title)}><button>Начать прием</button></li>
+                        <li className="wait_dots_menu_item" onClick={() => onWaitDelete(id)}><button>Удалить</button></li>
+                    </ul>
+                    : null
+                }
             </li>
 }
 

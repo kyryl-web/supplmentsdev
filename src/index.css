@@ -57,3 +57,7 @@ body.night .plus, body.night .minus {
 body.night .wait_item_amount button {
   color: #fc8600;
 }
+
+body.night .wait_dots_menu_item button {
+  color: #fc8600;
+}

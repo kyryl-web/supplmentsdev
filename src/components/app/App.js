@@ -21,7 +21,7 @@ function App() {
     //   id: 6
     // }
   const [items, setItems] = useState([]);
-  const [waitList, setWaitList] = useState(JSON.parse(localStorage.getItem('waitList')));
+  const [waitList, setWaitList] = useState(JSON.parse(localStorage.getItem('waitList')) ? JSON.parse(localStorage.getItem('waitList')) : []);
   const [categories, setCategories] = useState([]);
   const [filter, setFilter] = useState('');
   const [initFilter, setInitFilter] = useState('all');
@@ -69,10 +69,10 @@ function App() {
     setCategories(c);
   }, [])
 
-  const onAdd = () => {
+  const onAdd = (title) => {
     setItems(items => {
       return [...items, 
-            {title: '', categories: [], take: [],
+            {title: title ? title : '', categories: [], take: [],
                 pauseDate: '', 
                 activePause: false,
                 pauseDays: 0,
@@ -85,6 +85,13 @@ function App() {
       return [...waits, {title: '', amount: 0,  id: waits[waits.length-1]?.id ? waits[waits.length-1].id + 1 : 1}]
     })
   }
+
+  function onWaitDelete(id) {
+    console.log(id)
+    setWaitList(waits => {
+      return waits.filter(wait => wait.id !== id);
+    })
+  } 
 
   function onCategorieAdd(name, id, itemId) {
     setItems(items => {
@@ -422,7 +429,9 @@ function App() {
                                     waitList={waitList} 
                                     onWaitAdd={onWaitAdd} 
                                     onWaitTitleChange={onWaitTitleChange}
-                                    addAmountToWaitItem={addAmountToWaitItem}/> : null}
+                                    addAmountToWaitItem={addAmountToWaitItem}
+                                    onWaitDelete={onWaitDelete}
+                                    onAdd={onAdd}/> : null}
     </div>
   );
 }
