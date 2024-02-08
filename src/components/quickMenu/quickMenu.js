@@ -12,6 +12,7 @@ const QuickMenu = ({getActiveTab, activeTab}) => {
     const burgerItems = [
         {name: 'items', text: 'Счетчик приема'},
         {name: 'wait', text: 'Список ожидания'},
+        {name: 'recycle', text: 'Корзина'},
     ];
 
     const elements = burgerItems.map(({name, text}, i) => {

@@ -2,6 +2,7 @@ import { useState } from "react";
 import DeleteSVG from "../svgImages/deleteSVG";
 import PlusSVG from "../svgImages/plusSVG";
 import DotsSVG from "../svgImages/dotsSVG";
+import Menu from "./menu";
 
 import './suppList.css';
 import { wait } from "@testing-library/user-event/dist/utils";
@@ -78,24 +79,13 @@ const WaitItem =({onWaitTitleChange, id, amount, title, addAmountToWaitItem, onW
                     </div>
                     <DotsSVG clazz='wait_item_dots' f={() => setShowMenu(b => !b)}/>
                 </div>
-                {showMenu ? 
-                    <ul className="wait_dots_menu">
-                        <PlusSVG clazz='close' f={() => setShowMenu(b => !b)}/>
-                        <li className="wait_dots_menu_item" onClick={() => {
-                                onAdd(title, id);
-                                setShowMenu(b => !b);
-                        }}>
-                            <button>Начать прием</button>
-                        </li>
-                        <li className="wait_dots_menu_item" onClick={() => {
-                                onWaitDelete(id);
-                                setShowMenu(b => !b);
-                        }}>
-                            <button>Удалить</button>
-                        </li>
-                    </ul>
-                    : null
+                {showMenu ? <Menu 
+                                    setShowMenu={setShowMenu} 
+                                    buttons={['Начать прием', 'Удалить']}
+                                    f={[() => onAdd(title, id), () => onWaitDelete(id)]}/>
+                        : null
                 }
+                
             </li>
 }
 

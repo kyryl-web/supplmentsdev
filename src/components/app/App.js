@@ -7,6 +7,7 @@ import QuickMenu from '../quickMenu/quickMenu';
 import NightMod from '../nightMod/nightMod';
 import WaitSuppList from '../tabs/suppList';
 import ItemsTab from '../tabs/itemsTab';
+import RecycleBin from '../tabs/recycleBin';
 
 import './App.css';
 
@@ -23,6 +24,7 @@ function App() {
   const [items, setItems] = useState([]);
   const [waitList, setWaitList] = useState(JSON.parse(localStorage.getItem('waitList')) ? JSON.parse(localStorage.getItem('waitList')) : []);
   const [categories, setCategories] = useState([]);
+  const [recycleItems, setRecycleItems] = useState([]);
   const [filter, setFilter] = useState('');
   const [initFilter, setInitFilter] = useState('all');
   const [checked, setChecked] = useState(Boolean(localStorage.getItem('night')));
@@ -49,34 +51,36 @@ function App() {
     if (localStorage.getItem('activeTab')) {
       setActiveTab(localStorage.getItem('activeTab'));
     }
+
+    if (JSON.parse(localStorage.getItem('recycleItems'))?.length) {
+      setRecycleItems(JSON.parse(localStorage.getItem('recycleItems')));
+    }
   }, [])
 
   useEffect(() => {
-    if (items.length !== 0) {
-      localStorage.setItem('items', JSON.stringify(items));
-    }
+    localStorage.setItem('items', JSON.stringify(items));
   }, [items])
 
   useEffect(() => {
-    if (waitList.length) {
-      localStorage.setItem('waitList', JSON.stringify(waitList));
-    }
+    localStorage.setItem('waitList', JSON.stringify(waitList));
   }, [waitList])
-
+  
+  useEffect(() => {
+    localStorage.setItem('recycleItems', JSON.stringify(recycleItems));
+  }, [recycleItems])
   
 
   const onCategories = useCallback((c) => {
     setCategories(c);
   }, [])
 
-  const onAdd = (title=null, id=null) => {
-    console.log(title)
+  const onAdd = (title='', id=null, take=[], pausedays=0) => {
     setItems(items => {
       return [...items, 
-            {title: title ? title : '', categories: [], take: [],
+              {title: title, categories: [], take: [...take],
                 pauseDate: '', 
                 activePause: false,
-                pauseDays: 0,
+                pauseDays: pausedays,
                 id: items[items.length-1]?.id ? items[items.length-1].id + 1 : 1}]
     })
 
@@ -99,9 +103,14 @@ function App() {
   }
 
   function onWaitDelete(id) {
-    console.log(id)
     setWaitList(waits => {
       return waits.filter(wait => wait.id !== id);
+    })
+  }
+
+  function onRecycleDelete(id) {
+    setRecycleItems(recs => {
+      return recs.filter(rec => rec.id !== id);
     })
   } 
 
@@ -296,7 +305,13 @@ function App() {
   } 
 
   function deleteItem(id) {
-    
+    const deletedItem = items.filter(item => item.id === id);
+    if (deletedItem[0].title.length) {
+      setRecycleItems(recs => {
+        return [...recs, {...deletedItem[0], id: recs[recs.length-1]?.id ? recs[recs.length-1]?.id+1 : 1}]
+      })
+    }
+
     const f = items.filter((item, i) => item.id !== id)
     setItems(f);
   }
@@ -413,7 +428,8 @@ function App() {
   const filteredItems = filterItems(initFilterItems(items));
   const amount = {
     'items': filteredItems.length,
-    'wait': waitList.length
+    'wait': waitList.length,
+    'recycle': recycleItems.length
   }
   const itemsTitles = items.map(item => {
     return {title: item.title, id: item.id, activePause: item.activePause};
@@ -444,6 +460,9 @@ function App() {
                                     addAmountToWaitItem={addAmountToWaitItem}
                                     onWaitDelete={onWaitDelete}
                                     onAdd={onAdd}/> : null}
+        {activeTab === 'recycle' ? <RecycleBin  items={recycleItems} 
+                                                onRecycleDelete={onRecycleDelete}
+                                                onAdd={onAdd}/> : null}
     </div>
   );
 }

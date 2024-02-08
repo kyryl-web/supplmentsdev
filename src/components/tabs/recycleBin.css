@@ -1,0 +1,27 @@
+/* .recycle_list_item {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+} */
+
+.recycle_take {
+    display: flex;
+    justify-content: space-around;
+}
+
+.recycle_list_item {
+    position: relative;
+}
+
+.recycle_list_item_title {
+    margin-bottom: 15px;
+}
+
+.recycle_dots {
+    position: absolute;
+    right: 20px;
+    top: 12px;
+    height: 20px;
+    width: 25px;
+    cursor: pointer;
+}
