@@ -17,10 +17,11 @@ function App() {
     //   categories: [],
     //   take: [],
     //   pauseDate: '',
+    //   lastTakeDate: '',
     //   activePause: false,
     //   pauseDays: 0,
     //   id: 6
-    // }
+  // }
   const [items, setItems] = useState([]);
   const [waitList, setWaitList] = useState(JSON.parse(localStorage.getItem('waitList')) ? JSON.parse(localStorage.getItem('waitList')) : []);
   const [categories, setCategories] = useState([]);
@@ -78,7 +79,8 @@ function App() {
     setItems(items => {
       return [...items, 
               {title: title, categories: [], take: [...take],
-                pauseDate: '', 
+                pauseDate: '',
+                lastTakeDate: '',
                 activePause: false,
                 pauseDays: pausedays,
                 id: items[items.length-1]?.id ? items[items.length-1].id + 1 : 1}]
@@ -156,7 +158,7 @@ function App() {
     })
   }
 
-  function getLastCheckDate() {
+  function getDate() {
     const d = new Date();
     const lastDate = {
       year: d.getFullYear(),
@@ -165,6 +167,7 @@ function App() {
       hours: d.getHours(),
       minutes: d.getMinutes(),
     }
+
     const day = lastDate.day < 10 ? '0'+lastDate.day : lastDate.day;
     const month = lastDate.month < 10 ? '0'+lastDate.month : lastDate.month;
     const year = lastDate.year;
@@ -173,6 +176,11 @@ function App() {
 
     const date = day+'-'+month+'-'+year+'T'+hours+':'+minutes;
 
+    return date;
+  }
+
+  function getLastCheckDate() {
+    const date = getDate();
     localStorage.setItem('lastCheck', date);
 
     setLastCheck(date);
@@ -226,7 +234,7 @@ function App() {
     setItems(items => {
       return items.map((item, i) => {
         if (item.id === id) {
-          return {...item, take: item.take.concat([t])};
+          return {...item, take: item.take.concat([t]), lastTakeDate: getDate()};
         }
         return item;
       })  
@@ -316,7 +324,7 @@ function App() {
     setItems(f);
   }
 
-  function pause(e, n) {
+  function pause(e, id) {
     const d = new Date();
     
     if (!e) {
@@ -331,7 +339,7 @@ function App() {
       
       setItems(items => {
         return items.map((item, i) => {
-          if (i === n) {
+          if (item.id === id) {
             return {...item, pauseDate, activePause: true}
           }
           return item
@@ -339,19 +347,21 @@ function App() {
       })
     }
     else if (e === 'item') {
-      const mil = Date.now() - items[n].pauseDate.milliseconds;
+      const currentItem = items.filter(item => item.id === id)[0];
+      const mil = Date.now() - currentItem.pauseDate.milliseconds;
       const test = Math.floor(3600*1000*24*1)
-      const days = Math.floor(mil/1000/3600/24)%365
+      const days = Math.floor(mil/1000/3600/24)
+      console.log(days)
       // console.log(Math.floor(mil/1000/3600/24)%365)
       if (days > 0) {
         const addArr = []
-        for (let i = 0; i < days - items[n].pauseDays; i++) {
+        for (let i = 0; i < days - currentItem.pauseDays; i++) {
           addArr.push(0)
         }
 
         setItems(items => {
           return items.map((item, i) => {
-            if (i === n) {
+            if (item.id === id) {
               return {...item, take: [...item.take, ...addArr], pauseDays: days};
             }
             return item;
@@ -362,7 +372,7 @@ function App() {
     else {
         setItems(items => {
           return items.map((item, i) => {
-            if (i === n) {
+            if (item.id === id) {
               return {...item, activePause: false, pauseDays: 0}
             }
             return item;

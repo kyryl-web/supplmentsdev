@@ -7,7 +7,7 @@ const Bar = ({barList, pause, pauseDate, disableButtons, activePause, pauseDays}
     const [showPause, setShowPause] = useState(activePause);
 
     useEffect(() => {
-        disableButtons(showPause)
+        disableButtons(showPause);
     }, [showPause])
 
     const elements = barList.map((item, id) => {

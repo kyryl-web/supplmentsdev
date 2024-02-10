@@ -78,6 +78,10 @@
     line-height: 100%;
 }
 
+.pause_info {
+    font-size: 14px;
+}
+
 .add_item_category_plus {
     height: 15px;
     width: 17px;

@@ -12,7 +12,7 @@ import ArrowDownSVG from "../svgImages/arrowDownSVG";
 
 // categoriesList - категроии из компонента категорий
 // categories - категории айтема
-const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, onTitleChange, n, onTools, 
+const Item = ({title, categories, pauseDate, lastTakeDate, pauseDays, takeList, activePause, onTitleChange, onTools, 
                 deleteItem, pause, categoriesList, onCategorieAdd, deleteCatFromItem, id}) => {
     const [term, setTerm] = useState(title);
     const [showBar, setShowBar] = useState(false);
@@ -35,7 +35,7 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
         }
 
         if (activePause && counter.current < 1) {
-            pause('item', n);
+            pause('item', id);
             counter.current++;
         }
     }, [])
@@ -80,7 +80,7 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
     return (
         <li className="item">
             <DeleteSVG clazz='delete' f={() => {deleteItem(id)}}/>
-            {activePause ? <p className="pause_info">Перерыв</p> : null}
+            {activePause ? <p className="pause_info">Перерыв</p> : <p className="pause_info">{lastTakeDate}</p>}
             <input ref={ref} className="item_title" placeholder="Введите название" value={term} onChange={(e) => onTitle(e)} onBlur={() => blurTitle()}/>
             <ul className="item_categories">
                 {chooseActive ? renderChooseList() : null}
@@ -125,7 +125,7 @@ const Item = ({title, categories, pauseDate, pauseDays, takeList, activePause, o
             </div>
 
             {showBar ? <Bar barList={takeList} 
-                        pause={(e) => pause(e, n)} 
+                        pause={(e) => pause(e, id)} 
                         pauseDate={pauseDate} 
                         disableButtons={disableButtons} 
                         activePause={activePause}
