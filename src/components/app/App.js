@@ -14,6 +14,7 @@ import './App.css';
 function App() {
  // {
     //   title: '',
+    //   shortTitle: '',
     //   categories: [],
     //   take: [],
     //   pauseDate: '',
@@ -78,7 +79,8 @@ function App() {
   const onAdd = (title='', id=null, take=[], pausedays=0) => {
     setItems(items => {
       return [...items, 
-              {title: title, categories: [], take: [...take],
+              {title: title, shortTitle: title.length > 15 ? title.slice(0, 15) + '...' : title,
+                categories: [], take: [...take],
                 pauseDate: '',
                 lastTakeDate: '',
                 activePause: false,
@@ -140,7 +142,7 @@ function App() {
     setItems(items => {
       return items.map((item, i) => {
         if (item.id === id) {
-          return {...item, title: term}
+          return {...item, title: term, shortTitle: term.length > 15 ? term.slice(0, 15) + '...' : term}
         }
         return item;
       })
@@ -168,13 +170,14 @@ function App() {
       minutes: d.getMinutes(),
     }
 
+
     const day = lastDate.day < 10 ? '0'+lastDate.day : lastDate.day;
     const month = lastDate.month < 10 ? '0'+lastDate.month : lastDate.month;
-    const year = lastDate.year;
+    const year = lastDate.year+'';
     const hours = lastDate.hours < 10 ? '0'+lastDate.hours : lastDate.hours;
     const minutes = lastDate.minutes < 10 ? '0'+lastDate.minutes : lastDate.minutes;
 
-    const date = day+'-'+month+'-'+year+'T'+hours+':'+minutes;
+    const date = day+'-'+month+'-'+year.slice(2)+'T'+hours+':'+minutes;
 
     return date;
   }

@@ -34,7 +34,8 @@ body.night .delete_cart {
 }
 
 body.night .plus_svg, 
-body.night .dots_svg{
+body.night .dots_svg,
+body.night .accept g{
   fill: inherit;
 }
 

@@ -1,5 +1,4 @@
 
-import './deleteSVG.css';
 
 const DeleteSVG = ({clazz, f}) => {
 

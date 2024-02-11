@@ -8,17 +8,20 @@ import DeleteSVG from "../svgImages/deleteSVG";
 import PlusSVG from "../svgImages/plusSVG";
 import DotsSVG from "../svgImages/dotsSVG";
 import ArrowDownSVG from "../svgImages/arrowDownSVG";
+import AcceptSVG from "../svgImages/acceptSVG";
 
 
 // categoriesList - категроии из компонента категорий
 // categories - категории айтема
-const Item = ({title, categories, pauseDate, lastTakeDate, pauseDays, takeList, activePause, onTitleChange, onTools, 
+const Item = ({title, shortTitle, categories, pauseDate, lastTakeDate, pauseDays, takeList, activePause, onTitleChange, onTools, 
                 deleteItem, pause, categoriesList, onCategorieAdd, deleteCatFromItem, id}) => {
     const [term, setTerm] = useState(title);
     const [showBar, setShowBar] = useState(false);
     const [disable, setDisable] = useState(activePause);
     const [chooseActive, setChooseActive] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
+    const [showAccept, setShowAccept] = useState(false);
+    const [shortInput, setShortInput] = useState(title === shortTitle ? false : true);
 
     const ref = useRef();
     let counter = useRef(0);
@@ -38,8 +41,26 @@ const Item = ({title, categories, pauseDate, lastTakeDate, pauseDays, takeList, 
             pause('item', id);
             counter.current++;
         }
-    }, [])
 
+        // сбрасываю галочку в 6 часов утра. для этого надо сравнить текущее время и время последней активности на конкретном айтеме. для этого
+        // - сравниваем день: 
+        //   - он должен быть не равен текущему (то есть либо текущее число больше, либо меньше если наступил новый месяц)
+        //   - либо он равен, но тогда время последней активности должно быть больше 6 часов утра
+        const d = new Date();
+        if (lastTakeDate) {
+            // console.log(Number(lastTakeDate.slice(11, 13)))
+            if (Number(lastTakeDate.slice(11, 13))) {
+
+            }
+        }
+    }, [lastTakeDate])
+
+    // useEffect(() => {
+    //     if (title !== shortTitle && shortInput) {
+    //         setShortInput(true);
+    //     }
+    // }, [title])
+    
     const takeNum = sum(takeList, 1);
     const passNum = sum(takeList, -1);
 
@@ -53,10 +74,15 @@ const Item = ({title, categories, pauseDate, lastTakeDate, pauseDays, takeList, 
         const term = e.target.value;
         setTerm(term);
         onTitleChange(term, id);
-    } 
+    }
+
+    function shortInputFocus(e) {
+        setShortInput(false);
+        // ref.current.focus();
+    }
     
     function blurTitle() {
-        
+        setShortInput(true)
     }
 
     function disableButtons(b) {
@@ -76,12 +102,22 @@ const Item = ({title, categories, pauseDate, lastTakeDate, pauseDays, takeList, 
     }
 
     const moreArrowClass = showBar ? 'more_arrow active' : 'more_arrow';
-    // const itemTitle = term.length > 30 ? term.slice(0, 30) + '...' : term;
+    // const itemTitle = term.length > 20 ? term.slice(0, 20) + '...' : term;
+    console.log(shortInput)
+    console.log('Short: ' + shortTitle + ' ' + 'Title: ' + title)
     return (
         <li className="item">
             <DeleteSVG clazz='delete' f={() => {deleteItem(id)}}/>
-            {activePause ? <p className="pause_info">Перерыв</p> : <p className="pause_info">{lastTakeDate}</p>}
-            <input ref={ref} className="item_title" placeholder="Введите название" value={term} onChange={(e) => onTitle(e)} onBlur={() => blurTitle()}/>
+            {activePause ? <p className="pause_info">Перерыв</p> : lastTakeDate ? <p className="pause_info">{lastTakeDate.split('T')[0]}<br/>{lastTakeDate.split('T')[1]}</p> : null}
+            {/* {activePause ? <p className="pause_info">Перерыв</p> : showAccept ? <AcceptSVG/> : null}  */}
+            {shortInput ? 
+                <input  className="item_title short" placeholder="Введите название" 
+                        value={shortTitle} onFocus={(e) => shortInputFocus(e)}/>
+            :
+                <input  ref={ref} className="item_title" placeholder="Введите название" 
+                        value={term} onChange={(e) => onTitle(e)} onBlur={() => blurTitle()}/>
+            }
+            
             <ul className="item_categories">
                 {chooseActive ? renderChooseList() : null}
                 {itemCategoriesList.length ? 

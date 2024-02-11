@@ -28,6 +28,12 @@
     border: none;
 }
 
+.item_title:focus {
+    border: 2px solid;
+    border-radius: 20px;
+    padding: 8px 5px;
+}
+
 .item_counter {
     display: flex;
     justify-content: space-around;

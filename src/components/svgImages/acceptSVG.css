@@ -1,0 +1,9 @@
+
+.accept {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    cursor: pointer;
+}
