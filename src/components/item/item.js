@@ -54,12 +54,6 @@ const Item = ({title, shortTitle, categories, pauseDate, lastTakeDate, pauseDays
             }
         }
     }, [lastTakeDate])
-
-    // useEffect(() => {
-    //     if (title !== shortTitle && shortInput) {
-    //         setShortInput(true);
-    //     }
-    // }, [title])
     
     const takeNum = sum(takeList, 1);
     const passNum = sum(takeList, -1);
@@ -78,7 +72,6 @@ const Item = ({title, shortTitle, categories, pauseDate, lastTakeDate, pauseDays
 
     function shortInputFocus(e) {
         setShortInput(false);
-        // ref.current.focus();
     }
     
     function blurTitle() {
@@ -103,8 +96,8 @@ const Item = ({title, shortTitle, categories, pauseDate, lastTakeDate, pauseDays
 
     const moreArrowClass = showBar ? 'more_arrow active' : 'more_arrow';
     // const itemTitle = term.length > 20 ? term.slice(0, 20) + '...' : term;
-    console.log(shortInput)
-    console.log('Short: ' + shortTitle + ' ' + 'Title: ' + title)
+
+    // console.log('Short: ' + shortTitle + ' ' + 'Title: ' + title)
     return (
         <li className="item">
             <DeleteSVG clazz='delete' f={() => {deleteItem(id)}}/>

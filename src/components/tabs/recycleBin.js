@@ -3,9 +3,11 @@ import Menu from './menu';
 import DotsSVG from '../svgImages/dotsSVG';
 
 import './recycleBin.css';
+import DeleteSVG from '../svgImages/deleteSVG';
 
 
 const RecycleBin = ({items, onRecycleDelete, onAdd}) => {
+    const [showMenu, setShowMenu] = useState(false);
 
     const elements = items.map((item, i) => {
         return  <RecycleBinItem key={item.id}
@@ -13,9 +15,25 @@ const RecycleBin = ({items, onRecycleDelete, onAdd}) => {
                                 onRecycleDelete={onRecycleDelete}
                                 onAdd={onAdd}/>
     })
-
+    console.log(showMenu)
     return (
         <div className="recycle">
+            <div className='delete_all'>
+                <DeleteSVG clazz='recycle_bin_delete_all' f={() => {
+                                                                    setShowMenu(b => !b);
+                                                                    }}
+                />
+                {showMenu ? 
+                    <Menu 
+                        setShowMenu={setShowMenu}
+                        buttons={['Удалить все']}
+                        f={[() => {
+                            onRecycleDelete('all');
+                        }]}
+                    /> 
+                    : null
+                }
+            </div>
             <ul className="recycle_list">
                 {elements}
             </ul>

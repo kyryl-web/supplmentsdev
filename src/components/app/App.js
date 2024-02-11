@@ -113,6 +113,12 @@ function App() {
   }
 
   function onRecycleDelete(id) {
+    if (id === 'all') {
+      setRecycleItems(recs => {
+        return [];
+      })
+      return;
+    }
     setRecycleItems(recs => {
       return recs.filter(rec => rec.id !== id);
     })

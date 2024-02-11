@@ -25,3 +25,16 @@
     width: 25px;
     cursor: pointer;
 }
+
+.recycle_bin_delete_all {
+    position: absolute;
+    right: 0;
+}
+
+.delete_all {
+    position: relative;
+}
+
+.delete_all .wait_dots_menu {
+    top: 28px;
+}
