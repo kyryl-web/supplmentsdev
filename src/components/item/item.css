@@ -185,6 +185,10 @@
     /* margin-bottom: 10px; */
 }
 
+.delete_item .wait_dots_menu {
+    top: 38px;
+    right: -12px;
+}
 
 @media (max-width: 450px) {
     .item {

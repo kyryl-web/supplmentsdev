@@ -9,6 +9,7 @@ import PlusSVG from "../svgImages/plusSVG";
 import DotsSVG from "../svgImages/dotsSVG";
 import ArrowDownSVG from "../svgImages/arrowDownSVG";
 import AcceptSVG from "../svgImages/acceptSVG";
+import Menu from "../menu/menu";
 
 
 // categoriesList - категроии из компонента категорий
@@ -22,6 +23,7 @@ const Item = ({title, shortTitle, categories, pauseDate, lastTakeDate, pauseDays
     const [showOptions, setShowOptions] = useState(false);
     const [showAccept, setShowAccept] = useState(false);
     const [shortInput, setShortInput] = useState(title === shortTitle ? false : true);
+    const [deleteMenu, setDeleteMenu] = useState(false);
 
     const ref = useRef();
     let counter = useRef(0);
@@ -100,7 +102,21 @@ const Item = ({title, shortTitle, categories, pauseDate, lastTakeDate, pauseDays
     // console.log('Short: ' + shortTitle + ' ' + 'Title: ' + title)
     return (
         <li className="item">
-            <DeleteSVG clazz='delete' f={() => {deleteItem(id)}}/>
+            <div className="delete_item">
+                <DeleteSVG clazz='delete' f={() => setDeleteMenu(b => !b)}/>
+                {deleteMenu ? 
+                    <Menu 
+                            setShowMenu={setDeleteMenu}
+                            buttons={['В архив', 'В корзину']}
+                            f={[
+                                () => deleteItem(id, 'archive'),
+                                () => deleteItem(id, 'recycle')
+                            ]}
+                    />
+                    : null
+                }
+                
+            </div>
             {activePause ? <p className="pause_info">Перерыв</p> : lastTakeDate ? <p className="pause_info">{lastTakeDate.split('T')[0]}<br/>{lastTakeDate.split('T')[1]}</p> : null}
             {/* {activePause ? <p className="pause_info">Перерыв</p> : showAccept ? <AcceptSVG/> : null}  */}
             {shortInput ? 

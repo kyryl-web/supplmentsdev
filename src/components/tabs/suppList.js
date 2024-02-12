@@ -2,7 +2,7 @@ import { useState } from "react";
 import DeleteSVG from "../svgImages/deleteSVG";
 import PlusSVG from "../svgImages/plusSVG";
 import DotsSVG from "../svgImages/dotsSVG";
-import Menu from "./menu";
+import Menu from "../menu/menu";
 
 import './suppList.css';
 import { wait } from "@testing-library/user-event/dist/utils";

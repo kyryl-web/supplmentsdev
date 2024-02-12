@@ -27,11 +27,12 @@ function App() {
   const [waitList, setWaitList] = useState(JSON.parse(localStorage.getItem('waitList')) ? JSON.parse(localStorage.getItem('waitList')) : []);
   const [categories, setCategories] = useState([]);
   const [recycleItems, setRecycleItems] = useState([]);
+  const [archiveItems, setArchiveItems] = useState([]);
   const [filter, setFilter] = useState('');
   const [initFilter, setInitFilter] = useState('all');
   const [checked, setChecked] = useState(Boolean(localStorage.getItem('night')));
   const [lastCheck, setLastCheck] = useState(localStorage.getItem('lastCheck'));
-  const [activeTab, setActiveTab] = useState('wait');
+  const [activeTab, setActiveTab] = useState('');
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem('items'))?.length) {
@@ -112,16 +113,32 @@ function App() {
     })
   }
 
-  function onRecycleDelete(id) {
+  function onRecycleDelete(id, type) {
     if (id === 'all') {
-      setRecycleItems(recs => {
-        return [];
-      })
-      return;
+      if (type === 'recycle') {
+        setRecycleItems(recs => {
+          return [];
+        })
+        return;
+      }
+      if (type === 'archive') {
+        setArchiveItems(recs => {
+          return [];
+        })
+        return;
+      }
     }
-    setRecycleItems(recs => {
-      return recs.filter(rec => rec.id !== id);
-    })
+
+    if (type === 'recycle') {
+      setRecycleItems(recs => {
+        return recs.filter(rec => rec.id !== id);
+      })
+    }
+    if (type === 'archive') {
+      setArchiveItems(recs => {
+        return recs.filter(rec => rec.id !== id);
+      })
+    }
   } 
 
   function onCategorieAdd(name, id, itemId) {
@@ -321,12 +338,19 @@ function App() {
     } 
   } 
 
-  function deleteItem(id) {
+  function deleteItem(id, type) {
     const deletedItem = items.filter(item => item.id === id);
     if (deletedItem[0].title.length) {
-      setRecycleItems(recs => {
-        return [...recs, {...deletedItem[0], id: recs[recs.length-1]?.id ? recs[recs.length-1]?.id+1 : 1}]
-      })
+      if (type === 'recycle') {
+        setRecycleItems(recs => {
+          return [...recs, {...deletedItem[0], id: recs[recs.length-1]?.id ? recs[recs.length-1]?.id+1 : 1}]
+        })
+      }
+      if (type === 'archive') {
+        setArchiveItems(recs => {
+          return [...recs, {...deletedItem[0], id: recs[recs.length-1]?.id ? recs[recs.length-1]?.id+1 : 1}]
+        })
+      }
     }
 
     const f = items.filter((item, i) => item.id !== id)
@@ -448,7 +472,8 @@ function App() {
   const amount = {
     'items': filteredItems.length,
     'wait': waitList.length,
-    'recycle': recycleItems.length
+    'recycle': recycleItems.length,
+    'archive': archiveItems.length
   }
   const itemsTitles = items.map(item => {
     return {title: item.title, id: item.id, activePause: item.activePause};
@@ -481,7 +506,14 @@ function App() {
                                     onAdd={onAdd}/> : null}
         {activeTab === 'recycle' ? <RecycleBin  items={recycleItems} 
                                                 onRecycleDelete={onRecycleDelete}
-                                                onAdd={onAdd}/> : null}
+                                                onAdd={onAdd}
+                                                type='recycle'/> : null
+                                                }
+        {activeTab === 'archive' ? <RecycleBin  items={archiveItems} 
+                                                onRecycleDelete={onRecycleDelete}
+                                                onAdd={onAdd}
+                                                type='archive'/> : null
+                                                }
     </div>
   );
 }

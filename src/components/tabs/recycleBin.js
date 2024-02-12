@@ -1,19 +1,21 @@
 import { useState } from 'react';
-import Menu from './menu';
+import Menu from '../menu/menu';
 import DotsSVG from '../svgImages/dotsSVG';
+import RemovedItem from './removedItem';
 
 import './recycleBin.css';
 import DeleteSVG from '../svgImages/deleteSVG';
 
 
-const RecycleBin = ({items, onRecycleDelete, onAdd}) => {
+const RecycleBin = ({items, onRecycleDelete, onAdd, type}) => {
     const [showMenu, setShowMenu] = useState(false);
 
     const elements = items.map((item, i) => {
-        return  <RecycleBinItem key={item.id}
+        return  <RemovedItem key={item.id}
                                 {...item}
                                 onRecycleDelete={onRecycleDelete}
-                                onAdd={onAdd}/>
+                                onAdd={onAdd}
+                                type={type}/>
     })
     console.log(showMenu)
     return (
@@ -28,7 +30,7 @@ const RecycleBin = ({items, onRecycleDelete, onAdd}) => {
                         setShowMenu={setShowMenu}
                         buttons={['Удалить все']}
                         f={[() => {
-                            onRecycleDelete('all');
+                            onRecycleDelete('all', type);
                         }]}
                     /> 
                     : null
