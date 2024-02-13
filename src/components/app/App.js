@@ -198,6 +198,7 @@ function App() {
     const month = lastDate.month < 10 ? '0'+lastDate.month : lastDate.month;
     const year = lastDate.year+'';
     const hours = lastDate.hours < 10 ? '0'+lastDate.hours : lastDate.hours;
+    // const hours = '07'
     const minutes = lastDate.minutes < 10 ? '0'+lastDate.minutes : lastDate.minutes;
 
     const date = day+'-'+month+'-'+year.slice(2)+'T'+hours+':'+minutes;
@@ -275,7 +276,8 @@ function App() {
             if (last >= 0) {
               return {
                 ...item,
-                take: item.take.slice(0, last).concat(item.take.slice(last+1, item.take.length))
+                take: item.take.slice(0, last).concat(item.take.slice(last+1, item.take.length)),
+                lastTakeDate: getDate()
               }
             }
           }
