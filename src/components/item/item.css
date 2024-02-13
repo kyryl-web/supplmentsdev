@@ -190,6 +190,10 @@
     right: -12px;
 }
 
+.not_take {
+    color: rgb(151, 6, 6) !important;
+}
+
 @media (max-width: 450px) {
     .item {
         max-width: 70%;

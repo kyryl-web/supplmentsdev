@@ -24,15 +24,10 @@ const Item = ({title, shortTitle, categories, pauseDate, lastTakeDate, pauseDays
     const [showAccept, setShowAccept] = useState(false);
     const [shortInput, setShortInput] = useState(title === shortTitle ? false : true);
     const [deleteMenu, setDeleteMenu] = useState(false);
+    const [lastTakeClass, setLastTakeClass] = useState('');
 
     const ref = useRef();
     let counter = useRef(0);
-
-    useEffect(() => {
-        if (term === '') {
-            // ref.current.placeholder = 'Введите название';
-        }
-    }, [term])
 
     useEffect(() => {
         if (title === '') {
@@ -43,17 +38,20 @@ const Item = ({title, shortTitle, categories, pauseDate, lastTakeDate, pauseDays
             pause('item', id);
             counter.current++;
         }
+    }, [])
 
-        // сбрасываю галочку в 6 часов утра. для этого надо сравнить текущее время и время последней активности на конкретном айтеме. для этого
+    useEffect(() => {
+        // если текущее число отличается от числа последнего приема, то надпись с датой последнего приема становится красной
         // - сравниваем день: 
-        //   - он должен быть не равен текущему (то есть либо текущее число больше, либо меньше если наступил новый месяц)
-        //   - либо он равен, но тогда время последней активности должно быть больше 6 часов утра
+        //   - он должен быть не равен текущему
         const d = new Date();
         if (lastTakeDate) {
-            // console.log(Number(lastTakeDate.slice(11, 13)))
-            if (Number(lastTakeDate.slice(11, 13))) {
-
+            console.log(Number(lastTakeDate.slice(0, 2)))
+            console.log(d.getDate())
+            if (Number(lastTakeDate.slice(0, 2)) !== d.getDate()) {
+                setLastTakeClass('not_take');
             }
+            else setLastTakeClass('');
         }
     }, [lastTakeDate])
     
@@ -97,9 +95,6 @@ const Item = ({title, shortTitle, categories, pauseDate, lastTakeDate, pauseDays
     }
 
     const moreArrowClass = showBar ? 'more_arrow active' : 'more_arrow';
-    // const itemTitle = term.length > 20 ? term.slice(0, 20) + '...' : term;
-
-    // console.log('Short: ' + shortTitle + ' ' + 'Title: ' + title)
     return (
         <li className="item">
             <div className="delete_item">
@@ -117,8 +112,9 @@ const Item = ({title, shortTitle, categories, pauseDate, lastTakeDate, pauseDays
                 }
                 
             </div>
-            {activePause ? <p className="pause_info">Перерыв</p> : lastTakeDate ? <p className="pause_info">{lastTakeDate.split('T')[0]}<br/>{lastTakeDate.split('T')[1]}</p> : null}
-            {/* {activePause ? <p className="pause_info">Перерыв</p> : showAccept ? <AcceptSVG/> : null}  */}
+            {activePause ?  <p className="pause_info">Перерыв</p> : lastTakeDate ? 
+                            <p className={'pause_info ' + lastTakeClass}>{lastTakeDate.split('T')[0]}<br/>{lastTakeDate.split('T')[1]}</p> 
+            : null}
             {shortInput ? 
                 <input  className="item_title short" placeholder="Введите название" 
                         value={shortTitle} onFocus={(e) => shortInputFocus(e)}/>
