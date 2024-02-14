@@ -93,7 +93,7 @@ function App() {
       setWaitList(waits => {
         return waits.map(wait => {
           if (wait.id === id) {
-            return {...wait, amount: wait.amount - 1}
+            return {...wait, amount: wait.amount === 0 ? 0 : wait.amount - 1}
           }
           return wait;
         })

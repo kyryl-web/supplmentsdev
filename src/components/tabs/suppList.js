@@ -81,8 +81,11 @@ const WaitItem =({onWaitTitleChange, id, amount, title, addAmountToWaitItem, onW
                 </div>
                 {showMenu ? <Menu 
                                     setShowMenu={setShowMenu} 
-                                    buttons={['Начать прием', 'Удалить']}
-                                    f={[() => onAdd(title, id), () => onWaitDelete(id)]}/>
+                                    buttons={amount > 0 ? ['Начать прием', 'Удалить'] : ['Удалить']}
+                                    f={amount > 0 ?
+                                        [() => onAdd(title, id), () => onWaitDelete(id)]
+                                        : [() => onWaitDelete(id)]
+                                    }/>
                         : null
                 }
                 
