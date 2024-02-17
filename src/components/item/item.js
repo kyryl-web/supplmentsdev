@@ -15,7 +15,7 @@ import Menu from "../menu/menu";
 // categoriesList - категроии из компонента категорий
 // categories - категории айтема
 const Item = ({title, shortTitle, categories, pauseDate, lastTakeDate, pauseDays, takeList, activePause, onTitleChange, onTools, 
-                deleteItem, pause, categoriesList, onCategorieAdd, deleteCatFromItem, id}) => {
+                deleteItem, pause, categoriesList, onCategorieAdd, deleteCatFromItem, id, itemsTitles}) => {
     const [term, setTerm] = useState(title);
     const [showBar, setShowBar] = useState(false);
     const [disable, setDisable] = useState(activePause);
@@ -77,7 +77,10 @@ const Item = ({title, shortTitle, categories, pauseDate, lastTakeDate, pauseDays
     }
     
     function blurTitle() {
-        setShortInput(true)
+        for (let i = 0; i < itemsTitles.length; i++) {
+            
+        }
+        setShortInput(title !== shortTitle);
     }
 
     function disableButtons(b) {
@@ -122,7 +125,7 @@ const Item = ({title, shortTitle, categories, pauseDate, lastTakeDate, pauseDays
                         value={shortTitle} onFocus={(e) => shortInputFocus(e)}/>
             :
                 <input  ref={ref} className="item_title" placeholder="Введите название" 
-                        value={term} onChange={(e) => onTitle(e)} onBlur={() => blurTitle()}/>
+                        value={term} onChange={(e) => onTitle(e)} onBlur={(e) => blurTitle(e)}/>
             }
             
             <ul className="item_categories">

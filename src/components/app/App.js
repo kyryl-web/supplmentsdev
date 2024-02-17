@@ -82,16 +82,26 @@ function App() {
   }, [])
 
   const onAdd = (title='', id=null, take=[], pausedays=0) => {
-    setItems(items => {
-      return [...items, 
-              {title: title, shortTitle: title.length > 15 ? title.slice(0, 15) + '...' : title,
-                categories: [], take: [...take],
-                pauseDate: '',
-                lastTakeDate: '',
-                activePause: false,
-                pauseDays: pausedays,
-                id: items[items.length-1]?.id ? items[items.length-1].id + 1 : 1}]
-    })
+    let isThisTitle = false;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].title === title && items[i].title !== '') {
+        isThisTitle = true;
+        break;
+      }
+    }
+
+    if (!isThisTitle) {
+      setItems(items => {
+        return [...items, 
+                {title: title, shortTitle: title.length > 15 ? title.slice(0, 15) + '...' : title,
+                  categories: [], take: [...take],
+                  pauseDate: '',
+                  lastTakeDate: '',
+                  activePause: false,
+                  pauseDays: pausedays,
+                  id: items[items.length-1]?.id ? items[items.length-1].id + 1 : 1}]
+      })
+    }
 
     if (id) {
       setWaitList(waits => {
@@ -496,7 +506,7 @@ function App() {
   }
 
   const tools = {initFilter, getInitFilter, onCategories, deleteCatFromItem, getFilter, filter,
-                filteredItems, onAdd, onTitleChange, amount, takeItems, onTools, deleteItem, pause, categories, onCategorieAdd}
+                filteredItems, onAdd, onTitleChange, amount, takeItems, onTools, deleteItem, pause, categories, onCategorieAdd, itemsTitles}
   return (
     <div className='App'>
       {lastCheck ? <p className="last_check">{lastCheck}</p> : null}  
