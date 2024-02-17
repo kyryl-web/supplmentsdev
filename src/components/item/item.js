@@ -49,7 +49,6 @@ const Item = ({title, shortTitle, categories, pauseDate, lastTakeDate, pauseDays
         if (lastTakeDate) {
             const d = new Date();
             const lastTakeHour = Number(lastTakeDate.split('T')[1].slice(0, 2));
-            console.log(lastTakeHour)
             // console.log(d.getHours())
             if (Number(lastTakeDate.slice(0, 2)) !== d.getDate() || (lastTakeHour >= 0 && lastTakeHour <= 6)) {
                 setLastTakeClass('not_take');

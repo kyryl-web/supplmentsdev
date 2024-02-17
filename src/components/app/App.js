@@ -74,6 +74,10 @@ function App() {
   
 
   const onCategories = useCallback((c) => {
+    console.log(c)
+    if (c.length === 0) {
+      setFilter('');
+    }
     setCategories(c);
   }, [])
 
@@ -310,6 +314,7 @@ function App() {
     }
     else if (id !== 'all') {
       if (!itemId && itemId !== 0) {
+        setFilter('');
         setItems(items => {
           return items.map(item => {
             for (let i = 0; i < item.categories.length; i++) {
