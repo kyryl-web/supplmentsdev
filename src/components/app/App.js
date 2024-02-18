@@ -32,7 +32,7 @@ function App() {
   const [initFilter, setInitFilter] = useState('all');
   const [checked, setChecked] = useState(Boolean(localStorage.getItem('night')));
   const [lastCheck, setLastCheck] = useState(localStorage.getItem('lastCheck'));
-  const [activeTab, setActiveTab] = useState('');
+  const [activeTab, setActiveTab] = useState('items');
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem('items'))?.length) {
@@ -49,10 +49,6 @@ function App() {
 
     if (localStorage.getItem('night') === '' || localStorage.getItem('night') === 'true') {
       setChecked(Boolean(localStorage.getItem('night')));
-    }
-
-    if (localStorage.getItem('activeTab')) {
-      setActiveTab(localStorage.getItem('activeTab'));
     }
 
     if (JSON.parse(localStorage.getItem('recycleItems'))?.length) {
